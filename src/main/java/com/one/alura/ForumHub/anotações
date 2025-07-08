@@ -1,0 +1,3 @@
+1. fazer a rota de cadastro de novo usuário, talves devo separar os dtos, pois vai ficar muito grande
+2. fazer o handler para tratar erros, @RestControllerAdvice, etc.
+3. fazer a classe do package util que vai converter um dto para uma entidade (desacoplando do service)
