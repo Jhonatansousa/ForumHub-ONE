@@ -34,7 +34,7 @@ public class TopicServiceImpl implements ITopicService {
             throw new TopicContentAlreadyExistsException("Topic title and message is duplicated");
         }
         User user = userRepo.findById(request.authorId()).orElseThrow(() -> new UserNotFoundException("User Not Found with id: " + request.authorId()));
-        Course course = courseRepo.findByName(request.courseName());
+        Course course = courseRepo.findByNameIgnoreCase(request.courseName());
         if (course == null) {
             throw new CourseNotFoundException("Course Not Found");
         }

@@ -7,4 +7,9 @@ import java.util.UUID;
 
 public interface CourseRepository extends JpaRepository<Course, UUID> {
     Course findByName(String name);
+
+    boolean existsByNameIgnoreCase(String name);
+
+
+    Course findByNameIgnoreCase(String name);
 }

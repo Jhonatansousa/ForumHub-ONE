@@ -22,6 +22,7 @@ public class WebSecurityConfig {
                     auth.requestMatchers("/login").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/topicos").hasAnyRole("USER", "MODERATOR",  "ADMIN")
+                        .requestMatchers("/course").hasAnyRole("MODERATOR", "ADMIN")
                         .anyRequest().authenticated();
                 })
                 .addFilterBefore(new AuthFilter(), UsernamePasswordAuthenticationFilter.class);
