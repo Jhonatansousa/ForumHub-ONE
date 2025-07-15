@@ -15,6 +15,6 @@ import java.util.List;
 @Builder
 public class APIResponse<T> {
     private String status;
-    private List<ErrotDTO> errors;
+    private List<ErrorDTO> errors;
     private T results;
 }

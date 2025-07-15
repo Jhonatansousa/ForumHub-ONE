@@ -1,0 +1,1 @@
+- facade - Orquestra um fluxo de negócio/serviços que envolve múltiplos serviços.

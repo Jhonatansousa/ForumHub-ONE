@@ -22,7 +22,6 @@ public class TokenUtil {
     public static final long EXPIRATION_TIME = 7*24*60*60*1000;
     public static final String SECRET_KEY = "0123456789012345678901234567890123456789";
 
-
     public static AuthToken encodeToken(TokenDataDTO userData) {
         try {
             Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -59,7 +58,7 @@ public class TokenUtil {
                     Authentication auth = new UsernamePasswordAuthenticationToken(
                             subject,
                             null,
-                            Collections.singletonList(new SimpleGrantedAuthority(role)));
+                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role)));
 
                     return auth;
                 }

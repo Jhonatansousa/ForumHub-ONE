@@ -1,4 +1,4 @@
-package com.one.alura.ForumHub.dto;
+package com.one.alura.ForumHub.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
