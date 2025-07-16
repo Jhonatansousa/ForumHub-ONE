@@ -1,8 +1,8 @@
 package com.one.alura.ForumHub.service;
 
 import com.one.alura.ForumHub.dto.CourseRequestDTO;
-import com.one.alura.ForumHub.entity.Course;
-import com.one.alura.ForumHub.exception.CourseServiceBusinessException;
+import com.one.alura.ForumHub.exception.DuplicatedContentException;
+import com.one.alura.ForumHub.mapper.CourseMapper;
 import com.one.alura.ForumHub.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,16 +12,14 @@ import org.springframework.stereotype.Service;
 public class CourseServiceImpl implements ICourseService {
 
     private final CourseRepository courseRepo;
+    private final CourseMapper courseMapper;
 
     @Override
     public void createCourse(CourseRequestDTO request) {
         if(courseRepo.existsByNameIgnoreCase(request.name())) {
-            throw new CourseServiceBusinessException("Course already exists");
+            throw new DuplicatedContentException("Course already exists");
         }
-        Course course = new Course();
-        course.setName(request.name());
-        course.setCategory(request.category());
-        courseRepo.save(course);
+        courseRepo.save(courseMapper.toEntity(request));
     }
 
 }

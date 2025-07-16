@@ -1,19 +1,36 @@
 situação atual:
 tenho que fazer consulta no banco de dados para pegar o uuid, transformar em formato uuid para fazer a requisição de um post
 
-antes de fazer um topico devo criar um "Course" e o "courseName" devem ter os mesmos nomes
-
 
 
 ---
-2. fazer o handler para tratar erros, @RestControllerAdvice, etc.
-3. fazer a classe do package util que vai converter um dto para uma entidade (desacoplando do service)
+# pra fazer:
+
+- fazer o handler para tratar erros, @RestControllerAdvice, etc.
+- listagem (GET) de todos os topicos, preferencialmente implementar paginação de resultados
+- metodo PATCH para alteração/edição do topico
+
+### USER
+
+- endpoint Answer, usuário/moderator/admin podem responder um post
+
+### MODERATOR
+
+- softdelete, endpoint onde o moderator/admin "deleta" um post que substitui o conteúdo por: [Conteúdo Removido Pelo Moderador]
+- 
+
+### ADMIN
+
+- endpoint onde somente o admin tem acesso que irá alterar a role de um usuário para moderator ou admin
+- endpoint onde o admin pode deletar uma conta
+- endpoint onde o admin pode deletar um topico
+- endpoint onde o admin pode deletar uma resposta
 
 
-
-FEITO ==
-1. fazer a rota de cadastro de novo usuário, talves devo separar os dtos, pois vai ficar muito grande - OK agoar
+# FEITO
+- fazer a rota de cadastro de novo usuário, talves devo separar os dtos, pois vai ficar muito grande - OK agoar
 configurar o docker-compose e subir o container para fazer o teste dos endpoints de cadastro e login
+- fazer a classe do package util que vai converter um dto para uma entidade (desacoplando do service)
 
 
 
