@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService{
@@ -28,8 +31,10 @@ public class AuthServiceImpl implements IAuthService{
         if(res == null || !passwordEncoder.matches(dto.getPassword(), res.getPassword())) {
             throw new InvalidCredentialsException("Email or Password Invalid");
         }
+        Set<String> roles = res.getProfile().stream()
+                .map(profile -> profile.getName().name()).collect(Collectors.toSet());
 
-        TokenDataDTO tokenData = new TokenDataDTO(res.getEmail(), res.getRole());
+        TokenDataDTO tokenData = new TokenDataDTO(res.getEmail(), roles);
 
         return TokenUtil.encodeToken(tokenData);
     }

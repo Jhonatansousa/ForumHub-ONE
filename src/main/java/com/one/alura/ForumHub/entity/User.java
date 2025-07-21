@@ -2,6 +2,8 @@ package com.one.alura.ForumHub.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -13,8 +15,14 @@ public class User {
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_profile",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "profile_id")
+    )
+    private Set<Profile> profile = new HashSet<>();
+
 
     public UUID getId() {
         return id;
@@ -48,11 +56,11 @@ public class User {
         this.password = password;
     }
 
-    public UserRole getRole() {
-        return role;
+    public Set<Profile> getProfile() {
+        return profile;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setProfile(Set<Profile> profile) {
+        this.profile = profile;
     }
 }

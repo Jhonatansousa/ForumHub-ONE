@@ -1,6 +1,6 @@
 package com.one.alura.ForumHub.entity;
 
-public enum UserRole {
+public enum RoleName {
     USER,
     MODERATOR,
     ADMIN

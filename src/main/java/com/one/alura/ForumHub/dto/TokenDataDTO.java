@@ -1,6 +1,6 @@
 package com.one.alura.ForumHub.dto;
 
-import com.one.alura.ForumHub.entity.UserRole;
+import java.util.Set;
 
-public record TokenDataDTO(String email, UserRole role) {
+public record TokenDataDTO(String email, Set<String> roles) {
 }
