@@ -11,22 +11,23 @@ import com.one.alura.ForumHub.repository.CourseRepository;
 import com.one.alura.ForumHub.repository.TopicRepository;
 import com.one.alura.ForumHub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class TopicServiceImpl implements ITopicService {
 
     private final TopicRepository topicRepo;
     private final UserRepository userRepo;
     private final CourseRepository courseRepo;
-
     private final TopicMapper topicMapper;
 
-
     @Override
+    @Transactional
     public TopicResponseDTO createNewTopic(TopicRequestDTO request){
         if (topicRepo.existsByTitleAndMessage(request.title(), request.message())){
             throw new DuplicatedContentException("Topic title and message is duplicated");
@@ -36,11 +37,14 @@ public class TopicServiceImpl implements ITopicService {
         if (course == null) {
             throw new ResourceNotFoundException("Course Not Found");
         }
-
         Topic newTopic = topicRepo.save(topicMapper.toEntity(request, user, course));
-
-
         return topicMapper.toResponseDTO(newTopic);
+    }
+
+    @Override
+    public Page<TopicResponseDTO> getAllTopics(Pageable pageable) {
+        Page<Topic> topicsPage = topicRepo.findAllWithAnswers(pageable);
+        return topicsPage.map(topicMapper::toResponseDTO);
     }
 
 }

@@ -1,12 +1,14 @@
 package com.one.alura.ForumHub.mapper;
 
+import com.one.alura.ForumHub.dto.AnswerResponseDTO;
 import com.one.alura.ForumHub.dto.topic.TopicRequestDTO;
 import com.one.alura.ForumHub.dto.topic.TopicResponseDTO;
-import com.one.alura.ForumHub.entity.Course;
-import com.one.alura.ForumHub.entity.Topic;
-import com.one.alura.ForumHub.entity.TopicStatus;
-import com.one.alura.ForumHub.entity.User;
+import com.one.alura.ForumHub.entity.*;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TopicMapper {
@@ -22,11 +24,29 @@ public class TopicMapper {
     }
 
     public TopicResponseDTO toResponseDTO(Topic topic){
+        List<AnswerResponseDTO> answersDTOs = (topic.getAnswer() != null)
+                ? topic.getAnswer().stream()
+                            .map(this::answerToResponseDTO)
+                            .toList()
+                : Collections.emptyList();
+
         return new TopicResponseDTO(
+                topic.getId(),
                 topic.getTitle(),
                 topic.getMessage(),
                 topic.getStatus(),
-                topic.getCreatedAt()
+                topic.getCreatedAt(),
+                answersDTOs
+        );
+    }
+
+    private AnswerResponseDTO answerToResponseDTO(Answer answer){
+        return new AnswerResponseDTO(
+                answer.getId(),
+                answer.getMessage(),
+                answer.getSolution(),
+                answer.getAutor().getName(),
+                answer.getCreatedAt()
         );
     }
 }
