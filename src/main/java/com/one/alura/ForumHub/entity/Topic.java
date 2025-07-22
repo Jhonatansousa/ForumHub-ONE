@@ -18,6 +18,7 @@ public class Topic {
     private String message;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
@@ -31,7 +32,7 @@ public class Topic {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "topic", orphanRemoval = true)
     private List<Answer> answer = new ArrayList<>();
 
     public UUID getId() {
