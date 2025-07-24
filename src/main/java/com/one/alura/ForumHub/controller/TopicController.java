@@ -3,7 +3,7 @@ package com.one.alura.ForumHub.controller;
 import com.one.alura.ForumHub.dto.APIResponse;
 import com.one.alura.ForumHub.dto.topic.TopicRequestDTO;
 import com.one.alura.ForumHub.dto.topic.TopicResponseDTO;
-import com.one.alura.ForumHub.entity.Topic;
+import com.one.alura.ForumHub.dto.topic.TopicWithAnswerResponseDTO;
 import com.one.alura.ForumHub.service.ITopicService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/topicos")
@@ -28,9 +26,9 @@ public class TopicController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')")
-    public ResponseEntity<APIResponse<TopicResponseDTO>> createTopic(@Valid @RequestBody TopicRequestDTO request){
-        TopicResponseDTO response = topicService.createNewTopic(request);
-        APIResponse<TopicResponseDTO> apiResponse = APIResponse.<TopicResponseDTO>builder()
+    public ResponseEntity<APIResponse<TopicWithAnswerResponseDTO>> createTopic(@Valid @RequestBody TopicRequestDTO request){
+        TopicWithAnswerResponseDTO response = topicService.createNewTopic(request);
+        APIResponse<TopicWithAnswerResponseDTO> apiResponse = APIResponse.<TopicWithAnswerResponseDTO>builder()
                 .status("SUCCESS")
                 .results(response)
                 .build();
@@ -39,18 +37,31 @@ public class TopicController {
     }
 
 
-    @GetMapping
+    @GetMapping("/extended")
     @PreAuthorize("hasAnyRole('USER', 'MODERATOR','ADMIN')")
-    public ResponseEntity<APIResponse<Page<TopicResponseDTO>>> getAllTopics(
+    public ResponseEntity<APIResponse<Page<TopicWithAnswerResponseDTO>>> getAllTopicsWithAnswers(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
-        Page<TopicResponseDTO> topicPage = topicService.getAllTopics(pageable);
+        Page<TopicWithAnswerResponseDTO> topicPage = topicService.getAllTopicsWithAnswers(pageable);
 
-        APIResponse<Page<TopicResponseDTO>> apiResponse = APIResponse.<Page<TopicResponseDTO>>builder()
+        APIResponse<Page<TopicWithAnswerResponseDTO>> apiResponse = APIResponse.<Page<TopicWithAnswerResponseDTO>>builder()
                 .status("SUCCESS")
                 .results(topicPage)
                 .build();
 
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/basic")
+    @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<APIResponse<Page<TopicResponseDTO>>> getAllTopics(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC)  Pageable pageable
+    ) {
+        Page<TopicResponseDTO> topicPage = topicService.getAllTopics(pageable);
+        APIResponse<Page<TopicResponseDTO>> apiResponse = APIResponse.<Page<TopicResponseDTO>>builder()
+                .status("SUCCESS")
+                .results(topicPage)
+                .build();
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

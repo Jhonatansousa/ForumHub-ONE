@@ -2,6 +2,7 @@ package com.one.alura.ForumHub.service;
 
 import com.one.alura.ForumHub.dto.topic.TopicRequestDTO;
 import com.one.alura.ForumHub.dto.topic.TopicResponseDTO;
+import com.one.alura.ForumHub.dto.topic.TopicWithAnswerResponseDTO;
 import com.one.alura.ForumHub.entity.Course;
 import com.one.alura.ForumHub.entity.Topic;
 import com.one.alura.ForumHub.entity.User;
@@ -28,7 +29,7 @@ public class TopicServiceImpl implements ITopicService {
 
     @Override
     @Transactional
-    public TopicResponseDTO createNewTopic(TopicRequestDTO request){
+    public TopicWithAnswerResponseDTO createNewTopic(TopicRequestDTO request){
         if (topicRepo.existsByTitleAndMessage(request.title(), request.message())){
             throw new DuplicatedContentException("Topic title and message is duplicated");
         }
@@ -38,12 +39,18 @@ public class TopicServiceImpl implements ITopicService {
             throw new ResourceNotFoundException("Course Not Found");
         }
         Topic newTopic = topicRepo.save(topicMapper.toEntity(request, user, course));
-        return topicMapper.toResponseDTO(newTopic);
+        return topicMapper.toResponseWithAnswerDTO(newTopic);
+    }
+
+    @Override
+    public Page<TopicWithAnswerResponseDTO> getAllTopicsWithAnswers(Pageable pageable) {
+        Page<Topic> topicsPage = topicRepo.findAllWithAnswers(pageable);
+        return topicsPage.map(topicMapper::toResponseWithAnswerDTO);
     }
 
     @Override
     public Page<TopicResponseDTO> getAllTopics(Pageable pageable) {
-        Page<Topic> topicsPage = topicRepo.findAllWithAnswers(pageable);
+        Page<Topic> topicsPage = topicRepo.findAll(pageable);
         return topicsPage.map(topicMapper::toResponseDTO);
     }
 
