@@ -26,7 +26,7 @@ public class TopicController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('USER', 'MODERATOR', 'ADMIN')")
-    public ResponseEntity<APIResponse<TopicWitithubbhAnswerResponseDTO>> createTopic(@Valid @RequestBody TopicRequestDTO request){
+    public ResponseEntity<APIResponse<TopicWithAnswerResponseDTO>> createTopic(@Valid @RequestBody TopicRequestDTO request){
         TopicWithAnswerResponseDTO response = topicService.createNewTopic(request);
         APIResponse<TopicWithAnswerResponseDTO> apiResponse = APIResponse.<TopicWithAnswerResponseDTO>builder()
                 .status("SUCCESS")
