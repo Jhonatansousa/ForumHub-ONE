@@ -19,10 +19,6 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
-    private static final String ERROR = "ERROR";
-
-
-
     //trata exceções com annotations @Valid no controller
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<APIResponse<Void>> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
