@@ -1,4 +1,4 @@
-package com.one.alura.ForumHub.dto;
+package com.one.alura.ForumHub.dto.answer;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

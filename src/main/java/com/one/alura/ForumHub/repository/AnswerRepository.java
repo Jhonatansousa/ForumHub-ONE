@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface AnswerRepository extends JpaRepository<Answer, UUID> {
     boolean existsAnswersByMessageAndSolution(String message, String solution);
+    boolean existsAnswersByMessageAndSolutionAndIdNot(String message, String solution, UUID id);
+
 }

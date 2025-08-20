@@ -1,6 +1,6 @@
 package com.one.alura.ForumHub.mapper;
 
-import com.one.alura.ForumHub.dto.AnswerResponseDTO;
+import com.one.alura.ForumHub.dto.answer.AnswerResponseDTO;
 import com.one.alura.ForumHub.dto.topic.TopicRequestDTO;
 import com.one.alura.ForumHub.dto.topic.TopicResponseDTO;
 import com.one.alura.ForumHub.dto.topic.TopicWithAnswerResponseDTO;

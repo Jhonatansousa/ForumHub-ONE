@@ -1,7 +1,7 @@
 package com.one.alura.ForumHub.dto.topic;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.one.alura.ForumHub.dto.AnswerResponseDTO;
+import com.one.alura.ForumHub.dto.answer.AnswerResponseDTO;
 import com.one.alura.ForumHub.entity.TopicStatus;
 
 import java.time.LocalDateTime;
